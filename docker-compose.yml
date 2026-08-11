@@ -1,0 +1,27 @@
+services:
+  libation:
+    # Pulls the published image. To build from this checkout instead, add
+    # -f docker-compose.yml -f docker-compose.dev.yml
+    image: ghcr.io/tangent160/libation-webui:latest
+    container_name: libation
+    ports:
+      - "8080:8080"
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "Etc/UTC"
+      # "latest" checks GitHub on every start and upgrades the cached copy.
+      # Pin to e.g. "13.7.7" to freeze the version.
+      LIBATION_VERSION: "latest"
+      DISPLAY_WIDTH: "1280"
+      DISPLAY_HEIGHT: "800"
+      # Uncomment both to require a login on the web UI.
+      # WEBUI_USER: "libation"
+      # WEBUI_PASS: "changeme"
+    volumes:
+      - ./data/config:/config   # Settings, accounts, database, logs, master key
+      - ./data/books:/books     # downloaded audiobooks
+      - ./data/cache:/cache     # cached Libation installer + extracted app
+    # webkit2gtk (the Audible login view) wants more than the 64MB default
+    shm_size: "512m"
+    restart: unless-stopped

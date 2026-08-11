@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+  <theme>
+    <name>Clearlooks</name>
+    <titleLayout>NLIMC</titleLayout>
+    <font place="ActiveWindow"><name>sans</name><size>9</size></font>
+    <font place="InactiveWindow"><name>sans</name><size>9</size></font>
+  </theme>
+  <desktops>
+    <number>1</number>
+    <names><name>Libation</name></names>
+  </desktops>
+  <!-- Every window keeps its titlebar. Libation's secondary windows (Audible
+       Accounts, Settings, ...) are _NET_WM_WINDOW_TYPE_NORMAL with class
+       "Libation" — indistinguishable here from the main window — and several
+       have no in-app close button, so the titlebar close button is the only way
+       out of them. Nothing is maximized by rule for the same reason: it would
+       blow those child windows up to full screen too.
+
+       Position and maximized state are left to Libation, which persists its own
+       geometry per window in Settings.json and reapplies it — the main window is
+       maximized through that, not from here. -->
+  <applications>
+    <application class="*">
+      <decor>yes</decor>
+    </application>
+  </applications>
+</openbox_config>

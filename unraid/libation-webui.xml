@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Libation</Name>
+  <Repository>ghcr.io/tangent160/libation-webui:latest</Repository>
+  <Registry>https://ghcr.io/tangent160/libation-webui</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/tangent160/libation-docker-ui/issues</Support>
+  <Project>https://github.com/rmcrackan/Libation</Project>
+  <Overview>
+    Libation — liberate your Audible library — running as a full desktop GUI in your browser (TigerVNC + noVNC).
+
+    The Libation release is downloaded from GitHub on first start and cached on disk. Every restart checks GitHub for a newer release; if there is one it is downloaded, installed and the old cached copy is removed. If GitHub is unreachable the cached copy is used, so the container still starts offline.
+
+    All settings, accounts, the library database and the encryption master key live in the /config appdata share, so they survive container restarts and image updates.
+
+    The container image is versioned separately from Libation itself: the :latest image tag tracks this template's releases, while the Libation app version is chosen at runtime by the "Libation version" setting below. To pin the image, change the repository tag to a specific version such as :1.2 or :1.2.3.
+
+    Optional: set WEBUI_USER and WEBUI_PASS to put HTTP basic auth in front of the web UI. Leave them blank for no login. Traffic is plain HTTP — put it behind a reverse proxy if you expose it beyond your LAN.
+  </Overview>
+  <Category>MediaApp:Books Downloaders:</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/tangent160/libation-docker-ui/main/unraid/libation-webui.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/tangent160/libation-docker-ui/main/unraid/libation.png</Icon>
+  <ExtraParams>--shm-size=512m</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+
+  <Config Name="WebUI Port" Target="8080" Default="8080" Mode="tcp" Description="Port for the Libation web interface." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+
+  <Config Name="Appdata (config)" Target="/config" Default="/mnt/user/appdata/libation" Mode="rw" Description="Libation settings, accounts, library database, logs and encryption master key. Persisted across updates." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/libation</Config>
+
+  <Config Name="Books" Target="/books" Default="/mnt/user/media/audiobooks" Mode="rw" Description="Where liberated audiobooks are written." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/media/audiobooks</Config>
+
+  <Config Name="Installer cache" Target="/cache" Default="/mnt/user/appdata/libation-cache" Mode="rw" Description="Cached Libation installer and extracted application. Keeping this on disk means restarts do not re-download Libation." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/libation-cache</Config>
+
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID that owns the files Libation writes." Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
+
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID that owns the files Libation writes." Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
+
+  <Config Name="UMASK" Target="UMASK" Default="022" Mode="" Description="File creation mask." Type="Variable" Display="advanced" Required="false" Mask="false">022</Config>
+
+  <Config Name="TZ" Target="TZ" Default="Etc/UTC" Mode="" Description="Timezone, e.g. Europe/London or America/New_York." Type="Variable" Display="always" Required="false" Mask="false">Etc/UTC</Config>
+
+  <Config Name="Libation version" Target="LIBATION_VERSION" Default="latest" Mode="" Description="'latest' checks GitHub for a new Libation release on every container start and upgrades the cache. Set a specific version (e.g. 13.7.7) to pin it." Type="Variable" Display="always" Required="false" Mask="false">latest</Config>
+
+  <Config Name="Web UI username" Target="WEBUI_USER" Default="" Mode="" Description="Optional. Set together with the password to require HTTP basic auth. Leave both blank for no login." Type="Variable" Display="always" Required="false" Mask="false"/>
+
+  <Config Name="Web UI password" Target="WEBUI_PASS" Default="" Mode="" Description="Optional. Set together with the username to require HTTP basic auth." Type="Variable" Display="always" Required="false" Mask="true"/>
+
+  <Config Name="Screen width" Target="DISPLAY_WIDTH" Default="1280" Mode="" Description="Initial virtual desktop width in pixels. The desktop is resized to fit your browser window when you connect." Type="Variable" Display="advanced" Required="false" Mask="false">1280</Config>
+
+  <Config Name="Screen height" Target="DISPLAY_HEIGHT" Default="800" Mode="" Description="Initial virtual desktop height in pixels." Type="Variable" Display="advanced" Required="false" Mask="false">800</Config>
+</Container>

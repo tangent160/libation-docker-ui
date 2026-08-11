@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Convenience wrapper so `docker exec <container> libation-cli scan` works
+# against the same config the GUI uses.
+#   libation-cli list-accounts
+#   libation-cli liberate
+#   libation-cli export-master-key /config/libation-master.key
+set -euo pipefail
+APP_DIR=$(cat /run/libation/appdir)
+export LIBATION_FILES_DIR="${LIBATION_FILES_DIR:-/config}"
+export HOME="${HOME:-$LIBATION_FILES_DIR/.home}"
+cd "$APP_DIR"
+exec ./LibationCli "$@"
