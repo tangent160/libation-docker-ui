@@ -1,3 +1,5 @@
+# License
+
 MIT License
 
 Copyright (c) 2026 tangent160
@@ -22,9 +24,17 @@ SOFTWARE.
 
 ---
 
-This license covers the packaging in this repository only: the Dockerfile,
-scripts, configuration and templates.
+## Scope
 
-Libation itself (https://github.com/rmcrackan/Libation) is licensed GPL-3.0 and
-is downloaded at runtime, not redistributed in this image. The unraid icon in
-unraid/ is derived from Libation's artwork and remains under GPL-3.0.
+This license covers the packaging in this repository only. The packaging is the
+Dockerfile, the scripts, the configuration, and the templates.
+
+Two parts of this project are not under the MIT license:
+
+- Libation. The image downloads it at run time. The image does not redistribute
+  it. Libation is GPL-3.0.
+- The unraid icon in `unraid/`. It comes from the artwork of Libation, thus it
+  stays GPL-3.0.
+
+The container image also holds software from Debian, under other licenses. See
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
