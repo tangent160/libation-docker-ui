@@ -9,6 +9,8 @@ version changes independently.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-30
+
 ### Added
 
 - `THIRD-PARTY-NOTICES.md`. It lists the licenses of the Debian packages in the image, and
@@ -56,5 +58,6 @@ The first release.
   publishes its exact version and does not move `latest`. The image version is readable at
   `/etc/libation-webui-release`.
 
-[Unreleased]: https://github.com/tangent160/libation-docker-ui/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/tangent160/libation-docker-ui/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/tangent160/libation-docker-ui/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/tangent160/libation-docker-ui/releases/tag/v0.1.0
