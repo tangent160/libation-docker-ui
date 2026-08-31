@@ -10,6 +10,8 @@ for unraid, but it operates anywhere that Docker operates.
   cache.
 - **Persistent.** The settings, the accounts, the database, and the master key are in
   `/config`. They stay after a restart and after an image update.
+- **Usable on a phone.** The landing page picks the view from the size of your screen. A
+  small screen gets a fit view and a pan view. See [Phones and tablets](#phones-and-tablets).
 - **Complete.** The image contains GTK3, webkit2gtk (the Audible login view), ICU, fonts,
   and X.
 
@@ -47,6 +49,32 @@ The clipboard is useful for login URLs.
 Note: Libation keeps the window sizes and window positions in `/config`. Thus your layout
 stays after a restart.
 
+## Phones and tablets
+
+The landing page finds the size of your screen and picks the view for you. A screen with a
+short side of less than 800 pixels is a small screen.
+
+On a large screen the desktop changes size to fit the browser window. On a small screen
+that is wrong, because the desktop then becomes smaller than the Libation window, and only
+the top-left corner of that window stays visible. Thus a small screen gets two links
+instead:
+
+- **Fit the whole window on the screen.** The desktop keeps `DISPLAY_WIDTH` and
+  `DISPLAY_HEIGHT`, and the image is scaled down. You see everything. The text is small.
+- **Open at full size, and pan with a finger.** The image is not scaled. Tap the drag
+  button in the noVNC control bar. Then drag the view with one finger.
+
+Note: The noVNC control bar, on the left edge of the page, also holds a fullscreen button.
+On Android this gives back the height of the address bar.
+
+To make the text larger in the fit view, decrease the size of the desktop. For example, set
+`DISPLAY_WIDTH=1024` and `DISPLAY_HEIGHT=768`. A phone in landscape orientation also fits a
+1280x800 desktop much better than a phone in portrait orientation.
+
+If the Libation window stays in a corner after this change, Libation saved a bad geometry
+from an earlier connection. Stop the container. Then remove the `MainWindow` block from
+`/config/Settings.json`. Then start the container again.
+
 ## Configuration
 
 | Variable | Default | Purpose |
@@ -56,7 +84,7 @@ stays after a restart.
 | `PUID` / `PGID` | `99` / `100` | The owner of all files that Libation writes. |
 | `UMASK` | `022` | The file creation mask. |
 | `TZ` | `Etc/UTC` | The timezone of the container. |
-| `DISPLAY_WIDTH` / `DISPLAY_HEIGHT` | `1280` / `800` | The *initial* size. The desktop then changes size to fit your browser. |
+| `DISPLAY_WIDTH` / `DISPLAY_HEIGHT` | `1280` / `800` | The *initial* size. On a large screen the desktop then changes size to fit your browser. On a small screen it keeps this size, and the image is scaled. |
 | `WEB_PORT` | `8080` | The port that nginx listens on in the container. |
 
 | Volume | Contents |

@@ -66,6 +66,16 @@ docker-compose.dev.yml  override that builds from this checkout
   dialogs have no close button in the application, thus a dialog without a titlebar traps
   the user. A match on the title also does not work: openbox applies the rules at map time,
   before Avalonia sets the title.
+- **`resize=remote` is wrong on a phone.** noVNC asks Xvnc for a desktop the size of the
+  browser viewport. A phone in portrait gives about 412x830, which is smaller than the
+  Libation window, thus only its top-left corner is visible. For this reason
+  `/opt/webroot/index.html` picks the mode from `screen.width`/`screen.height`: `scale` (and
+  a link to `off` plus `view_clip=true`) on a small screen, `remote` on a large one.
+- **The mode always goes in the query string.** noVNC 1.3 reads `resize` and `view_clip`
+  from the query string first, then from `localStorage`. Without the parameter, one visit
+  from a phone follows the user back to the desktop.
+- **noVNC blocks pinch zoom.** `vnc.html` sets `user-scalable=no`, thus panning must come
+  from the Drag button of noVNC, not from the browser.
 - **websockify binds to loopback only.** nginx is the only entrance, because nginx holds
   the auth. A bind to all interfaces is reachable with `--network host`.
 - **A new `apt` package needs a new row in `THIRD-PARTY-NOTICES.md`.** If you add a package
@@ -103,6 +113,9 @@ Do these tests again after each change. Make sure that:
 - A restart uses the cache and downloads nothing.
 - A faked stale `/cache/current` upgrades the release and erases the old one.
 - Basic auth gives 401 on `/` and on `/vnc.html`, but 200 on `/health`.
+- A desktop browser goes straight to `vnc.html?...&resize=remote`.
+- A browser with a 412x915 viewport stays on the landing page and shows the two links. The
+  fit link shows the whole Libation window.
 
 Erase the volumes between the runs. A `/config` volume with data in it hides the first-run
 errors.

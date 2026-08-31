@@ -18,8 +18,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # X server + noVNC + nginx, plus Libation's own runtime dependencies.
 # Xvnc (TigerVNC) is both the X server and the VNC server: unlike Xvfb it
-# implements RandR mode setting, so noVNC can resize the real desktop to the
-# browser window instead of upscaling a fixed framebuffer.
+# implements RandR mode setting, so on a large screen noVNC can resize the real
+# desktop to the browser window instead of upscaling a fixed framebuffer. Small
+# screens keep the fixed desktop and scale it; see /opt/webroot/index.html.
 # libgtk-3-0 / libwebkit2gtk-4.1-0 come from the .deb's Recommends field and are
 # what the in-app Audible login WebView needs.
 RUN apt-get update && apt-get install -y --no-install-recommends \

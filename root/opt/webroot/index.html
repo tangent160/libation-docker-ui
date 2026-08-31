@@ -1,9 +1,46 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Libation</title>
 <!-- Served as a file (not an nginx `return`) so that basic auth, which runs in
-     the access phase, is applied before the user is sent on to noVNC. -->
-<meta http-equiv="refresh" content="0; url=vnc.html?autoconnect=1&amp;resize=remote&amp;reconnect=1&amp;path=websockify">
-<body style="font:14px sans-serif;background:#222;color:#ddd;padding:2rem">
-Loading Libation&hellip;
-<a style="color:#6cf" href="vnc.html?autoconnect=1&amp;resize=remote&amp;reconnect=1&amp;path=websockify">continue</a>
+     the access phase, is applied before the user is sent on to noVNC.
+
+     The resize mode is chosen here, per client, and it is always passed in the
+     query string. noVNC stores `resize` and `view_clip` in localStorage, and a
+     query variable overrides the stored value on every load; without it one
+     visit from a phone would stick for the next visit from a desktop.
+
+     resize=remote  Xvnc honours SetDesktopSize, so the desktop is resized to the
+                    browser window instead of being upscaled. Good on a desktop.
+     resize=scale   The desktop keeps DISPLAY_WIDTH x DISPLAY_HEIGHT and the
+                    image is scaled to fit. Used on small screens, where a remote
+                    resize would shrink the desktop below the size of Libation's
+                    own window and leave only its top-left corner visible.
+     resize=off&view_clip=true
+                    Full size, clipped, panned with a finger via the Drag button
+                    in the noVNC control bar. Offered as a link on small screens. -->
+<style>
+  body { font: 16px/1.5 sans-serif; background: #222; color: #ddd; padding: 2rem; }
+  a { color: #6cf; display: inline-block; margin: 0.75rem 0; }
+  p { max-width: 34rem; }
+</style>
+<body>
+<p id="msg">Loading Libation&hellip;</p>
+<p><a id="fit" href="vnc.html?autoconnect=1&amp;reconnect=1&amp;path=websockify&amp;resize=remote">Continue</a></p>
+<p><a id="pan" hidden href="vnc.html?autoconnect=1&amp;reconnect=1&amp;path=websockify&amp;resize=off&amp;view_clip=true">Open at full size, and pan with a finger</a></p>
+<script>
+  var base = 'vnc.html?autoconnect=1&reconnect=1&path=websockify';
+  var small = Math.min(screen.width, screen.height) < 800;
+  if (small) {
+    // Two taps, not a redirect: the user picks fit or pan, and the tap is also
+    // the gesture that lets the noVNC page go fullscreen from its control bar.
+    document.getElementById('msg').textContent =
+        'Small screen. Pick a view. The noVNC control bar, on the left edge, ' +
+        'has a fullscreen button and a drag button.';
+    document.getElementById('fit').href = base + '&resize=scale';
+    document.getElementById('fit').textContent = 'Fit the whole window on the screen';
+    document.getElementById('pan').hidden = false;
+  } else {
+    location.replace(base + '&resize=remote');
+  }
+</script>
 </body>
