@@ -10,8 +10,9 @@ for unraid, but it operates anywhere that Docker operates.
   cache.
 - **Persistent.** The settings, the accounts, the database, and the master key are in
   `/config`. They stay after a restart and after an image update.
-- **Usable on a phone.** The landing page picks the view from the size of your screen. A
-  small screen gets a fit view and a pan view. See [Phones and tablets](#phones-and-tablets).
+- **Usable on a phone.** The landing page picks the view from the size of your browser
+  window. A small window gets a fit view and a pan view. See
+  [Phones and tablets](#phones-and-tablets).
 - **Complete.** The image contains GTK3, webkit2gtk (the Audible login view), ICU, fonts,
   and X.
 
@@ -51,8 +52,9 @@ stays after a restart.
 
 ## Phones and tablets
 
-The landing page finds the size of your screen and picks the view for you. A screen with a
-short side of less than 800 pixels is a small screen.
+The landing page measures your browser window and picks the view for you. A window that is
+narrower than 900 pixels, or shorter than 600 pixels, is a small window. A phone fails this
+test in both orientations.
 
 On a large screen the desktop changes size to fit the browser window. On a small screen
 that is wrong, because the desktop then becomes smaller than the Libation window, and only
@@ -70,6 +72,10 @@ On Android this gives back the height of the address bar.
 To make the text larger in the fit view, decrease the size of the desktop. For example, set
 `DISPLAY_WIDTH=1024` and `DISPLAY_HEIGHT=768`. A phone in landscape orientation also fits a
 1280x800 desktop much better than a phone in portrait orientation.
+
+To pick the view yourself, put `?view=` in the address. `?view=fit` gives the fit view,
+`?view=pan` gives the pan view, and `?view=remote` gives the desktop behavior. For example,
+open `http://localhost:8080/?view=pan`.
 
 If the Libation window stays in a corner after this change, Libation saved a bad geometry
 from an earlier connection. Stop the container. Then remove the `MainWindow` block from

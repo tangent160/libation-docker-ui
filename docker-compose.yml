@@ -13,8 +13,8 @@ services:
       # "latest" checks GitHub on every start and upgrades the cached copy.
       # Pin to e.g. "13.7.7" to freeze the version.
       LIBATION_VERSION: "latest"
-      # Initial desktop size. A desktop browser resizes it to the window; a phone
-      # or tablet keeps it and scales the image, so lower it for larger text.
+      # Initial desktop size. A large browser window resizes it; a small window
+      # keeps it and scales the image, so lower it for larger text on a phone.
       DISPLAY_WIDTH: "1280"
       DISPLAY_HEIGHT: "800"
       # Uncomment both to require a login on the web UI.

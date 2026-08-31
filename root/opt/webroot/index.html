@@ -29,8 +29,22 @@
 <p><a id="pan" hidden href="vnc.html?autoconnect=1&amp;reconnect=1&amp;path=websockify&amp;resize=off&amp;view_clip=true">Open at full size, and pan with a finger</a></p>
 <script>
   var base = 'vnc.html?autoconnect=1&reconnect=1&path=websockify';
-  var small = Math.min(screen.width, screen.height) < 800;
-  if (small) {
+  // The test is the size of the viewport, not the pointer type: a remote resize
+  // is only useful when the browser window can hold a desktop that Libation's
+  // own window fits into. 900x600 is that floor. A phone fails it in portrait
+  // (about 412 wide) and in landscape (about 412 high), and so does a narrow
+  // window on a desktop, where the corner problem is the same.
+  // `?view=fit`, `?view=pan` and `?view=remote` override the whole decision.
+  var forced = (location.search.match(/[?&]view=(fit|pan|remote)/) || [])[1];
+  var small = innerWidth < 900 || innerHeight < 600;
+
+  if (forced === 'fit') {
+    location.replace(base + '&resize=scale');
+  } else if (forced === 'pan') {
+    location.replace(base + '&resize=off&view_clip=true');
+  } else if (forced === 'remote') {
+    location.replace(base + '&resize=remote');
+  } else if (small) {
     // Two taps, not a redirect: the user picks fit or pan, and the tap is also
     // the gesture that lets the noVNC page go fullscreen from its control bar.
     document.getElementById('msg').textContent =

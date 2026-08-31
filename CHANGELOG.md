@@ -20,11 +20,14 @@ version changes independently.
 
 - `LICENSE` is now `LICENSE.md`. The third-party text moved out of it, into
   `THIRD-PARTY-NOTICES.md`.
-- The landing page picks the noVNC resize mode from the size of the screen. A large screen
-  keeps `resize=remote`. A small screen gets two links: one that fits the whole desktop on
-  the screen (`resize=scale`), and one that shows it at full size and pans with a finger
-  (`resize=off&view_clip=true`). Before this change a phone got a desktop the size of its
-  own viewport, and only the top-left corner of the Libation window was visible.
+- The landing page picks the noVNC resize mode from the size of the browser window. A
+  window of at least 900x600 keeps `resize=remote`. A smaller window gets two links: one
+  that fits the whole desktop on the screen (`resize=scale`), and one that shows it at full
+  size and pans with a finger (`resize=off&view_clip=true`). Before this change a phone got
+  a desktop the size of its own viewport, and only the top-left corner of the Libation
+  window was visible.
+- `?view=fit`, `?view=pan`, and `?view=remote` on the landing page override the
+  measurement.
 - The resize mode is always in the query string. noVNC stores the mode in `localStorage`,
   thus one visit from a phone changed the next visit from a desktop.
 

@@ -18,7 +18,7 @@
 
     The container image is versioned separately from Libation itself: the :latest image tag tracks this template's releases, while the Libation app version is chosen at runtime by the "Libation version" setting below. To pin the image, change the repository tag to a specific version such as :1.2 or :1.2.3.
 
-    Phones and tablets are supported. On a desktop browser the virtual desktop is resized to fit your window. On a small screen that would shrink the desktop below the size of the Libation window, so the landing page offers two views instead: one that scales the whole window down to fit the screen, and one that keeps full size and lets you pan with a finger.
+    Phones and tablets are supported. In a large browser window the virtual desktop is resized to fit. In a small window that would shrink the desktop below the size of the Libation window, so the landing page offers two views instead: one that scales the whole window down to fit the screen, and one that keeps full size and lets you pan with a finger.
 
     Optional: set WEBUI_USER and WEBUI_PASS to put HTTP basic auth in front of the web UI. Leave them blank for no login. Traffic is plain HTTP — put it behind a reverse proxy if you expose it beyond your LAN.
   </Overview>
@@ -56,7 +56,7 @@
 
   <Config Name="Web UI password" Target="WEBUI_PASS" Default="" Mode="" Description="Optional. Set together with the username to require HTTP basic auth." Type="Variable" Display="always" Required="false" Mask="true"/>
 
-  <Config Name="Screen width" Target="DISPLAY_WIDTH" Default="1280" Mode="" Description="Initial virtual desktop width in pixels. On a desktop browser the virtual desktop is resized to fit your window. On a phone or tablet it keeps this size and the image is scaled to fit." Type="Variable" Display="advanced" Required="false" Mask="false">1280</Config>
+  <Config Name="Screen width" Target="DISPLAY_WIDTH" Default="1280" Mode="" Description="Initial virtual desktop width in pixels. In a large browser window the virtual desktop is resized to fit. In a small window it keeps this size and the image is scaled to fit." Type="Variable" Display="advanced" Required="false" Mask="false">1280</Config>
 
   <Config Name="Screen height" Target="DISPLAY_HEIGHT" Default="800" Mode="" Description="Initial virtual desktop height in pixels." Type="Variable" Display="advanced" Required="false" Mask="false">800</Config>
 </Container>

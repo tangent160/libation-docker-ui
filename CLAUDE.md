@@ -66,11 +66,15 @@ docker-compose.dev.yml  override that builds from this checkout
   dialogs have no close button in the application, thus a dialog without a titlebar traps
   the user. A match on the title also does not work: openbox applies the rules at map time,
   before Avalonia sets the title.
-- **`resize=remote` is wrong on a phone.** noVNC asks Xvnc for a desktop the size of the
-  browser viewport. A phone in portrait gives about 412x830, which is smaller than the
-  Libation window, thus only its top-left corner is visible. For this reason
-  `/opt/webroot/index.html` picks the mode from `screen.width`/`screen.height`: `scale` (and
-  a link to `off` plus `view_clip=true`) on a small screen, `remote` on a large one.
+- **`resize=remote` is wrong in a small window.** noVNC asks Xvnc for a desktop the size of
+  the browser viewport. A phone in portrait gives about 412x830, which is smaller than the
+  Libation window, thus only its top-left corner is visible. A narrow window on a desktop
+  does the same. For this reason `/opt/webroot/index.html` measures `innerWidth` and
+  `innerHeight`: less than 900x600 gets `scale` plus a link to `off` with `view_clip=true`,
+  and everything else gets `remote`. `?view=fit|pan|remote` overrides the measurement.
+- **Do not test this with `screen.width`.** `screen` can still be settling when the script
+  runs, and a full-size window then takes the small path. `innerWidth` is measured after
+  layout and does not have this problem.
 - **The mode always goes in the query string.** noVNC 1.3 reads `resize` and `view_clip`
   from the query string first, then from `localStorage`. Without the parameter, one visit
   from a phone follows the user back to the desktop.
